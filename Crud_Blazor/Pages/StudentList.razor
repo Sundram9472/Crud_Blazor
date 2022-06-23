@@ -1,0 +1,57 @@
+﻿@page "/Student"
+@using Crud_Blazor.Data
+
+@inject ClgStudentDetailsService studentService
+
+<NavLink class="nav-link" href="AddStudent">
+        <span class="oi oi-plus" aria-hidden="true">Add New</span>
+</NavLink>
+
+@if (StudentObj is null)
+ {
+   <div class="spinner"></div>
+ }
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Gender</th>
+                <th>Gmail</th>
+                <th>Programming Language</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in StudentObj)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.Gender</td>
+                    <td>@student.Gmail</td>
+                    <td>@student.ProgrammingLanguage</td>
+                    <td>
+                        <a class="nav-link" href="EditStudent/@student.Id">
+                            <span class="oi oi-pencil" aria-hidden="true">Edit</span>
+                        </a>
+                        <a class="nav-link" href="DeleteStudent/@student.Id">
+                            <span class="oi oi-trash" aria-hidden="true">Delete</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    List<ClgStudentDetails> StudentObj;
+    protected override async Task OnInitializedAsync()
+    {
+        StudentObj = await Task.Run(() => studentService.GetAllStudentAsync());
+    }
+}

@@ -1,0 +1,71 @@
+﻿@page "/EditStudent/{id}"
+@using Crud_Blazor.Data
+@inject ClgStudentDetailsService studentService
+@inject NavigationManager  NavigationManager
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input form="Name" class="form-control" @bind="@obj.Id" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@obj.FirstName" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">LastName</label>
+                <input form="Name" class="form-control" @bind="@obj.LastName" />
+            </div>
+            <div class="form-group">
+                <label for="Gender" class="control-label">Gender</label>
+                <select @bind="@obj.Gender" class="form-control">
+                    <option value="">-Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">Gmail</label>
+                <input form="City" class="form-control" @bind="@obj.Gmail" />
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">Programming Language</label>
+                <input form="City" class="form-control" @bind="@obj.ProgrammingLanguage" />
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <input form="City" class="form-control" @bind="@obj.City" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateStudent" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+    ClgStudentDetails obj = new ClgStudentDetails();
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => studentService.GetStudentAsync(Convert.ToInt32(Id)));
+    }
+    protected async void UpdateStudent()
+    {
+        await studentService.UpdateStudentAsync(obj);
+        NavigationManager.NavigateTo("Student");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Student");
+    }
+}
