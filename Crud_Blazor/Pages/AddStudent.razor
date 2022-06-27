@@ -3,56 +3,73 @@
 @inject ClgStudentDetailsService studentService
 @inject NavigationManager NavigationManager
 
-<form>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label for="Name" class="control-label">FirstName</label>
-                <input form="Name" class="form-control" @bind="@obj.FirstName" />
-            </div>
-            <div class="form-group">
-                <label for="Name" class="control-label">LastName</label>
-                <input form="Name" class="form-control" @bind="@obj.LastName" />
-            </div>
-            <div class="form-group">
-                <label for="Gender" class="control-label">Gender</label>
-                <select @bind="@obj.Gender" class="form-control">
-                    <option value="">-Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="Designation" class="control-label">Gmail</label>
-                <input form="Designation" class="form-control" @bind="@obj.Gmail" />
-            </div>
-            <div class="form-group">
-                <label for="Designation" class="control-label">Programming language</label>
-                <input form="Designation" class="form-control" @bind="@obj.ProgrammingLanguage" />
-            </div>
-            <div class="form-group">
-                <label for="City" class="control-label">City</label>
-                <input form="City" class="form-control" @bind="@obj.City" />
-            </div>
-
-        </div>
+<EditForm Model="@obj" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label for="FirstName" class="control-label">FirstName</label>
+        <input form="FirstName" class="form-control" @bind="@obj.FirstName" required />
+        <ValidationMessage For="@(() => obj.FirstName)" />
     </div>
+
+    <div class="form-group">
+        <label for="LastName" class="control-label">LastName</label>
+        <input form="LastName" class="form-control" @bind="@obj.LastName" required />
+        <ValidationMessage For="@(() => obj.LastName)" />
+    </div>
+    <div class="form-group">
+        <label for="Gender" class="control-label">Gender</label>
+        <select @bind="@obj.Gender" class="form-control">
+            <option value="">-Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <ValidationMessage For="@(() => obj.Gender)" />
+    </div>
+    <div class="form-group">
+        <label for="Designation" class="control-label">Gmail</label>
+        <input form="Designation" class="form-control" @bind="@obj.Gmail" />
+        <ValidationMessage For="@(() => obj.Gmail)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Designation" class="control-label">Programming language</label>
+        <input form="Designation" class="form-control" @bind="@obj.ProgrammingLanguage" />
+        <ValidationMessage For="@(() => obj.ProgrammingLanguage)" />
+    </div>
+    <div class="form-group">
+        <label for="City" class="control-label">Adress</label>
+        <input form="City" class="form-control" @bind="@obj.City" />
+        <ValidationMessage For="@(() => obj.City)" />
+    </div>
+
 
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreateStudent" value="Save" />
+                <input type="submit" class="btn btn-primary" @onsubmit="@CreateStudent" value="Save" />
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
             </div>
         </div>
     </div>
-</form>
+</EditForm>
 @code {
     ClgStudentDetails obj = new ClgStudentDetails();
     protected async void CreateStudent()
     {
         await studentService.InsertStudentAsync(obj);
         NavigationManager.NavigateTo("Student");
+    }
+
+    private void HandleValidSubmit()
+    {
+        System.Diagnostics.Debugger.Break();
+        NavigationManager.NavigateTo("StudentList");
+    }
+
+    private void HandleInValidSubmit()
+    {
+        System.Diagnostics.Debugger.Break();
+        NavigationManager.NavigateTo("Error");
     }
     void Cancel()
     {
