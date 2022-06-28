@@ -46,7 +46,7 @@ namespace Crud_Blazor.Data
         #region Update Student
         public async Task<bool> UpdateStudentAsync(ClgStudentDetails student)
         {
-            _appDBContext.ClgStudentdetails.Update(student);
+           _appDBContext.ClgStudentdetails.Update(student);
             await _appDBContext.SaveChangesAsync();
             return true;
         }

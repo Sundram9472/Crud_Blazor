@@ -13,5 +13,6 @@ namespace Crud_Blazor.Data
 
         }
         public DbSet<ClgStudentDetails> ClgStudentdetails { get; set; }
+        public DbSet<UserModal> userModal { get; set; }
     }
 }
