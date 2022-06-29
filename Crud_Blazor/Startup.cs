@@ -1,5 +1,5 @@
-using Crud_Blazor.Components;
 using Crud_Blazor.Data;
+using Crud_Blazor.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Crud_Blazor
 {
@@ -34,32 +35,12 @@ namespace Crud_Blazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<ClgStudentDetailsService>();
-            services.AddScoped<ServiceComponent>();
+            services.AddAuthentication("Identity.Application").AddCookie();
+            services.AddScoped<IFileUpload,FileUpload>();
             #region Connection String
             services.AddDbContext<AppDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("BlazorDBContext")));
             #endregion
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = Configuration["Jwt:Issuer"],
-                ValidAudience = Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:key"])),
-            };
-
-           
-        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

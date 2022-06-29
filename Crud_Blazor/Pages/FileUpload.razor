@@ -1,0 +1,19 @@
+﻿@page "/FileUpload"
+@using Crud_Blazor.Services
+@using System.IO
+@inject IFileUpload fileUpload 
+
+<BlazorInputFile.InputFile OnChange="HandleFileSelected" />
+
+@code {
+    IFileListEntry file;
+
+    async Task HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if(file != null)
+        {
+            await fileUpload.Upload(file);
+        }
+    }
+}
