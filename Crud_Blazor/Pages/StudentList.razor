@@ -3,14 +3,15 @@
 
 @inject ClgStudentDetailsService studentService
 
+
 <NavLink class="nav-link" href="AddStudent">
-        <span class="oi oi-plus" aria-hidden="true">Add New</span>
+    <span class="oi oi-plus" aria-hidden="true">Add New</span>
 </NavLink>
 
 @if (StudentObj is null)
- {
-   <div class="spinner"></div>
- }
+{
+    <div class="spinner"></div>
+}
 else
 {
     <table class="table">
