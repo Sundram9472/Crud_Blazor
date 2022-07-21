@@ -1,17 +1,33 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider />
+<MudDialogProvider/>
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1" Style="background-color:#006097">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"  Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">SOFTPRODIGY</MudText>
+        <MudSpacer />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Style="background-color:#ccecff"k>
+       <NavMenu />
+    </MudDrawer>
+    <MudMainContent class="mt-3">
+     <AuthorizeView>
+         <Authorized>
+               @Body
+         </Authorized>
+     </AuthorizeView>
+    </MudMainContent>
+</MudLayout>
+@code {
+    bool _drawerOpen = true;
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+    private MudTheme Theme = new MudTheme();
 
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+}
+

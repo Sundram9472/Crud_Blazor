@@ -16,7 +16,6 @@ namespace Crud_Blazor.Data
         public string FirstName { get; set; }
 
         [MinLength(2)]
-        [Required(ErrorMessage = "LastName is mandatory")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Gender is mandatory")]
@@ -31,7 +30,7 @@ namespace Crud_Blazor.Data
         public string ProgrammingLanguage { get; set; }
 
         [MinLength(2)]
-        [Required(ErrorMessage = "Adress is mandatory")]
+        [Required(ErrorMessage = "Address is mandatory")]
         public string City { get; set; }
         
     }

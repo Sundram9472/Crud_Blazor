@@ -2,75 +2,49 @@
 @using Crud_Blazor.Data
 @inject ClgStudentDetailsService studentService
 @inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations
 
-<EditForm Model="@obj" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInValidSubmit">
+<EditForm Model="@obj" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
-    <div class="form-group">
-        <label for="FirstName" class="control-label">FirstName</label>
-        <input form="FirstName" class="form-control" @bind="@obj.FirstName" required />
-        <ValidationMessage For="@(() => obj.FirstName)" />
-    </div>
+    <MudGrid mt="3">
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="FirstName" HelperText="Max. 20 characters"
+                                  @bind-Value="obj.FirstName" For="@(() => obj.FirstName)"/>
 
-    <div class="form-group">
-        <label for="LastName" class="control-label">LastName</label>
-        <input form="LastName" class="form-control" @bind="@obj.LastName" required />
-        <ValidationMessage For="@(() => obj.LastName)" />
-    </div>
-    <div class="form-group">
-        <label for="Gender" class="control-label">Gender</label>
-        <select @bind="@obj.Gender" class="form-control">
-            <option value="">-Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <ValidationMessage For="@(() => obj.Gender)" />
-    </div>
-    <div class="form-group">
-        <label for="Designation" class="control-label">Gmail</label>
-        <input form="Designation" class="form-control" @bind="@obj.Gmail" />
-        <ValidationMessage For="@(() => obj.Gmail)" />
-    </div>
+                    <MudTextField Label="LastName"  HelperText="Max. 20 characters" Class="mt-3"
+                                  @bind-Value="obj.LastName" For="@(() => obj.LastName)"/>
 
-    <div class="form-group">
-        <label for="Designation" class="control-label">Programming language</label>
-        <input form="Designation" class="form-control" @bind="@obj.ProgrammingLanguage" />
-        <ValidationMessage For="@(() => obj.ProgrammingLanguage)" />
-    </div>
-    <div class="form-group">
-        <label for="City" class="control-label">Adress</label>
-        <input form="City" class="form-control" @bind="@obj.City" />
-        <ValidationMessage For="@(() => obj.City)" />
-    </div>
+                    <MudTextField Label="Gmail" HelperText="Enter Valid Email Address" Class="mt-3"
+                                  @bind-Value="obj.Gmail" For="@(() => obj.Gmail)" InputType="InputType.Email"/>
+                
+                    <MudTextField Label="Gender" Class="mt-3"
+                                  @bind-Value="obj.Gender" For="@(() => obj.Gender)"/>
+               
+                    <MudTextField Label="Programming Language" Class="mt-3"
+                                  @bind-Value="obj.ProgrammingLanguage" For="@(() => obj.ProgrammingLanguage)"/>
 
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" @onsubmit="@CreateStudent" value="Save" />
-                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
-            </div>
-        </div>
-    </div>
+                    <MudTextField Label="Address" Class="mt-3"
+                                  @bind-Value="obj.City" For="@(() => obj.City)"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-0">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" @onclick="@Cancel" Variant="Variant.Filled" Color="Color.Error" Class="ml-6">Cancel</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
 </EditForm>
 @code {
     ClgStudentDetails obj = new ClgStudentDetails();
-    protected async void CreateStudent()
+
+    private async void HandleValidSubmit()
     {
         await studentService.InsertStudentAsync(obj);
         NavigationManager.NavigateTo("Student");
     }
 
-    private void HandleValidSubmit()
-    {
-        System.Diagnostics.Debugger.Break();
-        NavigationManager.NavigateTo("Student");
-    }
-
-    private void HandleInValidSubmit()
-    {
-        System.Diagnostics.Debugger.Break();
-        NavigationManager.NavigateTo("Error");
-    }
     void Cancel()
     {
         NavigationManager.NavigateTo("Student");

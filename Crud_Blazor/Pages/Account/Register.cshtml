@@ -1,0 +1,78 @@
+﻿@page
+@model Crud_Blazor.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="row">
+    <div class="col-md-5">
+        <form method="post" id="register">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="resgisterModal.FirstName" class="text-white"></label>
+                <input asp-for="resgisterModal.FirstName" class="form-control" />
+                <span asp-validation-for="resgisterModal.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="resgisterModal.LastName" class="text-white"></label>
+                <input asp-for="resgisterModal.LastName" class="form-control" />
+                <span asp-validation-for="resgisterModal.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="resgisterModal.UserName" class="text-white"></label>
+                <input asp-for="resgisterModal.UserName" class="form-control" />
+                <span asp-validation-for="resgisterModal.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="resgisterModal.PassWord" class="text-white"></label>
+                <input asp-for="resgisterModal.PassWord" class="form-control" />
+                <span asp-validation-for="resgisterModal.PassWord" class="text-danger"></span>
+            </div>
+            <hr />
+             <p class="text-white">
+                 Existing User? <a asp-page="./Login" class="text-light">Login</a>
+             </p>
+            <button type="submit" id="SignUp" >Register</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>SoftProdigy</h4>
+            <hr />
+            <p style="font-family:'Times New Roman', Times, serif" >MAKE YOUR BUSINESS A PART OF THE DIGITAL REVOLUTION WITH US!</p>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<style>
+     #SignUp{
+        border: none;
+        padding: 7px 100px;
+        text-align: center;
+        color: white;
+        background: #006097;
+        border-radius: 40px;
+        margin-left:15px;
+
+    }
+
+    body {
+        background: #f7f7f7;
+    }
+    
+    .row {
+        margin-bottom: 15px;
+        background-color:white;
+        box-shadow: 0px 0px 5px rgb(163, 194, 194);
+        padding: 30px;
+    }
+    #register {
+        margin-bottom: 15px;
+        background: #005580;
+        box-shadow: 0px 0px 2px rgb(51, 100, 153);
+        padding: 30px;
+    }
+</style>
