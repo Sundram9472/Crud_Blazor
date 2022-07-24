@@ -1,13 +1,14 @@
 ﻿@page "/Student"
+
 @using Crud_Blazor.Data
 @using Crud_Blazor.Pages
 @inject ISnackbar Snackbar
 @inject ClgStudentDetailsService studentService
 @inject IDialogService DialogService
-
+@attribute [Authorize] 
 
 <NavLink class="nav-link" href="AddStudent">
-    <span class="oi oi-plus" aria-hidden="true">Add New</span>
+    <span class="oi oi-plus btn-dark" aria-hidden="true">Add New</span>
 </NavLink>
 
 @if (Elements is null)
@@ -23,20 +24,20 @@ else
         <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 ml-5"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>FirstName</MudTh>
-        <MudTh>LastName</MudTh>
+        <MudTh>First Name</MudTh>
+        <MudTh>Last Name</MudTh>
         <MudTh>Gender</MudTh>
         <MudTh>Gmail</MudTh>
-        <MudTh>ProgrammingLanguage</MudTh>
+        <MudTh>Programming Language</MudTh>
         <MudTh>Adress</MudTh>
         <MudTh>Action</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
-        <MudTd DataLabel="LastName">@context.LastName</MudTd>
+        <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Last Name">@context.LastName</MudTd>
         <MudTd DataLabel="Gender">@context.Gender</MudTd>
         <MudTd DataLabel="Gmail">@context.Gmail</MudTd>
-        <MudTd DataLabel="ProgrammingLanguage">@context.ProgrammingLanguage</MudTd>
+        <MudTd DataLabel="Programming Language">@context.ProgrammingLanguage</MudTd>
         <MudTd DataLabel="Adress">@context.City</MudTd>
         <MudTd DataLabel="">
              <MudButton ButtonType="ButtonType.Button" Size="Size.Small"  @onclick="()=>DeleteUser(context)" Variant="Variant.Filled" Color="Color.Warning">Delete</MudButton>

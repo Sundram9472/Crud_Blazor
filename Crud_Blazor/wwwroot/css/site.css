@@ -24,6 +24,34 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.mud-button-filled-size-small {
+    padding: 4px 8px;
+    font-size: .6125rem;
+}
+.mud-table-head th.mud-table-cell {
+    background: #006097;
+    color: #fff !important;
+    font-size: 13px;
+}
+
+.mud-table-root tr.mud-table-row:nth-child(odd) {
+    background: #f5f5f5;
+    font-size: 13px;
+}
+
+.mud-table-root tr.mud-table-row:nth-child(even) {
+    background: #f5f5f5;
+    font-size: 13px;
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: #006097;
+    border-color: #006097;
+    padding: 9px 9px;
+    border-radius: 5px;
+}
+
 a, .btn-link {
     color: #0366d6;
 }
@@ -68,3 +96,31 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.mud-table-head th.mud-table-cell {
+    background: #006097;
+    color: #fff !important;
+    font-size: 13px;
+}
+
+.mud-table-root tr.mud-table-row:nth-child(odd) {
+    background: #f5f5f5;
+    font-size: 13px;
+}
+
+.mud-table-root tr.mud-table-row:nth-child(even) {
+    background: #f5f5f5;
+    font-size: 13px;
+}
+
+.mud-table-root span.oi.oi-plus.btn-dark {
+    background: #006097;
+    padding: 9px 9px;
+    border-radius: 5px;
+}
+.home-content {
+    padding: 4rem 1rem;
+}
+.file-upload-content {
+    padding: 4rem 1rem;
+}

@@ -12,12 +12,8 @@
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Style="background-color:#ccecff"k>
        <NavMenu />
     </MudDrawer>
-    <MudMainContent class="mt-3">
-     <AuthorizeView>
-         <Authorized>
-               @Body
-         </Authorized>
-     </AuthorizeView>
+    <MudMainContent class="home-content">
+        @Body
     </MudMainContent>
 </MudLayout>
 @code {
