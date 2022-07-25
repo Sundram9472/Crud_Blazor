@@ -1,0 +1,63 @@
+﻿@using Crud_Blazor.Data
+@inject ISnackbar Snackbar
+@inject ClgStudentDetailsService studentService
+@inject ClgStudentDetailsService studentService
+<MudDialog>
+  <DialogContent>
+    <MudContainer Style="max-height: 300px; overflow-y: scroll">
+        <MudText>@ContentText</MudText>
+        <EditForm Model="@obj">
+            <DataAnnotationsValidator />
+            <hr />
+            <MudGrid mt="3">
+                <MudItem xs="12" sm="7">
+                    <MudCard>
+                        <MudCardContent>
+                             <MudTextField Label="FirstName" HelperText="Max. 20 characters"
+                                          @bind-Value="obj.FirstName" For="@(() => obj.FirstName)"/>
+
+                             <MudTextField Label="LastName"  HelperText="Max. 20 characters" Class="mt-3"
+                                          @bind-Value="obj.LastName" For="@(() => obj.LastName)"/>
+
+                            <MudTextField Label="Gmail" HelperText="Enter Valid Email Address" Class="mt-3"
+                                          @bind-Value="obj.Gmail" For="@(() => obj.Gmail)" InputType="InputType.Email"/>
+                
+                            <MudTextField Label="Gender" Class="mt-3"
+                                          @bind-Value="obj.Gender" For="@(() => obj.Gender)"/>
+               
+                            <MudTextField Label="Programming Language" Class="mt-3"
+                                          @bind-Value="obj.ProgrammingLanguage" For="@(() => obj.ProgrammingLanguage)"/>
+
+                            <MudTextField Label="Address" Class="mt-3"
+                                          @bind-Value="obj.City" For="@(() => obj.City)"/>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </MudContainer>
+  </DialogContent>
+    <DialogActions>
+           <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary">Update</MudButton>
+           <MudButton ButtonType="ButtonType.Button" @onclick="@Cancel" Variant="Variant.Filled" Color="Color.Warning" Class="ml-6">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+   
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public ClgStudentDetails obj { get; set; } = new ClgStudentDetails();
+
+    [Parameter] public string ContentText { get; set; }
+
+    private async void Submit()
+    {
+        await studentService.UpdateStudentAsync(obj);
+        Snackbar.Add(obj.FirstName+" Updated", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

@@ -1,20 +1,21 @@
 ﻿@page "/FileUpload"
+@attribute [Authorize]  
 @using Crud_Blazor.Services
 @using System.IO
-@inject IFileUpload fileUpload 
+@inject IFileUpload fileUpload
+    <div class="file-upload-content">
+        <BlazorInputFile.InputFile OnChange="HandleFileSelected" />
+    </div>
 
-<BlazorInputFile.InputFile OnChange="HandleFileSelected" />
+    @code {
+        IFileListEntry file;
 
-@code {
-    IFileListEntry file;
-
-    async Task HandleFileSelected(IFileListEntry[] files)
-    {
-        file = files.FirstOrDefault();
-        if(file != null)
+        async Task HandleFileSelected(IFileListEntry[] files)
         {
-            await fileUpload.Upload(file);
+            file = files.FirstOrDefault();
+            if (file != null)
+            {
+                await fileUpload.Upload(file);
+            }
         }
     }
-}
-abo   mrxlsqav    prwcruemle  tcqem

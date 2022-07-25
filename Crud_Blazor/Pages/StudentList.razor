@@ -1,58 +1,113 @@
 ﻿@page "/Student"
+
 @using Crud_Blazor.Data
-
+@using Crud_Blazor.Pages
+@inject ISnackbar Snackbar
 @inject ClgStudentDetailsService studentService
-
+@inject IDialogService DialogService
+@attribute [Authorize] 
 
 <NavLink class="nav-link" href="AddStudent">
-    <span class="oi oi-plus" aria-hidden="true">Add New</span>
+    <span class="oi oi-plus btn-dark" aria-hidden="true">Add New</span>
 </NavLink>
 
-@if (StudentObj is null)
+@if (Elements is null)
 {
     <div class="spinner"></div>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Gender</th>
-                <th>Gmail</th>
-                <th>Programming Language</th>
-                <th>Adress</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var student in StudentObj)
-            {
-                <tr>
-                    <td>@student.FirstName</td>
-                    <td>@student.LastName</td>
-                    <td>@student.Gender</td>
-                    <td>@student.Gmail</td>
-                    <td>@student.ProgrammingLanguage</td>
-                    <td>
-                        <a class="nav-link" href="EditStudent/@student.Id">
-                            <span class="oi oi-pencil" aria-hidden="true">Edit</span>
-                        </a>
-                        <a class="nav-link" href="DeleteStudent/@student.Id">
-                            <span class="oi oi-trash" aria-hidden="true">Delete</span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+ <MudTable Items="@Elements" Dense="@true" Hover="@true" Bordered="@true" Striped="@true" Filter="new Func<ClgStudentDetails,bool>(FilterFunc1)">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Student Details</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 ml-5"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>First Name</MudTh>
+        <MudTh>Last Name</MudTh>
+        <MudTh>Gender</MudTh>
+        <MudTh>Gmail</MudTh>
+        <MudTh>Programming Language</MudTh>
+        <MudTh>Adress</MudTh>
+        <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Last Name">@context.LastName</MudTd>
+        <MudTd DataLabel="Gender">@context.Gender</MudTd>
+        <MudTd DataLabel="Gmail">@context.Gmail</MudTd>
+        <MudTd DataLabel="Programming Language">@context.ProgrammingLanguage</MudTd>
+        <MudTd DataLabel="Adress">@context.City</MudTd>
+        <MudTd DataLabel="">
+             <MudButton ButtonType="ButtonType.Button" Size="Size.Small"  @onclick="()=>DeleteUser(context)" Variant="Variant.Filled" Color="Color.Warning">Delete</MudButton>
+             <MudButton ButtonType="ButtonType.Button" Size="Size.Small"  @onclick="()=>EditUser(context)" Variant="Variant.Filled" Color="Color.Primary">Edit</MudButton>
+        </MudTd>
+    </RowTemplate>
+     <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
 }
 
 
 @code {
-    List<ClgStudentDetails> StudentObj;
+    private string searchString1 = "";
+    private IEnumerable<ClgStudentDetails> Elements = new List<ClgStudentDetails>();
     protected override async Task OnInitializedAsync()
     {
-        StudentObj = await Task.Run(() => studentService.GetAllStudentAsync());
+        Snackbar.Add("Student List", Severity.Success);
+        Elements = await studentService.GetAllStudentAsync();
     }
+
+    private void DeleteUser(ClgStudentDetails Context)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete these records? "+Context.FirstName);
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+        parameters.Add("ClgStudent",Context);
+
+        var options = new DialogOptions()
+        {
+            CloseButton = true, MaxWidth = MaxWidth.ExtraSmall 
+        };
+        DialogService.Show<DialogDeleteConfirmation_Dialog>("Delete", parameters, options);
+    }
+
+    private bool FilterFunc1(ClgStudentDetails element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ClgStudentDetails element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+            
+        if (element.ProgrammingLanguage.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        if ($"{element.FirstName} {element.ProgrammingLanguage} {element.Gmail}".Contains(searchString))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void EditUser(ClgStudentDetails Context)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", Context.FirstName);
+        parameters.Add("obj",Context);
+
+        var options = new DialogOptions()
+        {
+            CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true
+        };
+        DialogService.Show<DialogEdit_Dialog>("Edit", parameters, options);
+    }
+
 }

@@ -13,10 +13,11 @@ namespace Crud_Blazor.Data
 
         [MinLength(2)]
         [Required(ErrorMessage = "FirstName is mandatory")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [MinLength(2)]
-        [Required(ErrorMessage = "LastName is mandatory")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Gender is mandatory")]
@@ -27,11 +28,12 @@ namespace Crud_Blazor.Data
         public string Gmail { get; set; }
 
         [MinLength(2)]
+        [Display(Name = "Programming Language")]
         [Required(ErrorMessage = "Programming Language is mandatory")]
         public string ProgrammingLanguage { get; set; }
 
         [MinLength(2)]
-        [Required(ErrorMessage = "Adress is mandatory")]
+        [Required(ErrorMessage = "Address is mandatory")]
         public string City { get; set; }
         
     }
